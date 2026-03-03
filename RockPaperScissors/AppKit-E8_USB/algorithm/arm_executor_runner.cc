@@ -176,6 +176,8 @@ bool classify_object = false;
 
 output_label_t output_label;
 
+float class_probs[NUM_CLASSES] = {0.0};
+
 constexpr int H = IMAGE_HEIGHT;
 
 constexpr int W = IMAGE_WIDTH;
@@ -852,6 +854,7 @@ void print_outputs(RunnerContext& ctx) {
             int predicted_idx;
 
             softmax(logits, probs, numel);
+            memcpy(class_probs, probs, sizeof(class_probs));
             predicted_idx = argmax(probs, numel, &confidence);
 
             if (model_config == VEHICLE_MODEL) {
@@ -957,8 +960,8 @@ void postprocess(RunnerContext& ctx, uint8_t* img_buf,
     print_outputs(ctx);
 
     /* Copy classification result into caller's output buffer */
-    if (out_num >= sizeof(output_label_t)) {
-        memcpy(out_buf, &output_label, sizeof(output_label_t));
+    if (out_num >= sizeof(class_probs)) {
+        memcpy(out_buf, class_probs, sizeof(class_probs));
     }
 
     /* Format label string and draw onto frame */

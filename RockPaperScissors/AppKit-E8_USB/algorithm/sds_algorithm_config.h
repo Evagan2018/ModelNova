@@ -28,7 +28,7 @@
 
 // Output Data block size, in bytes
 #ifndef SDS_ALGO_DATA_OUT_BLOCK_SIZE
-#define SDS_ALGO_DATA_OUT_BLOCK_SIZE    (24 * 10)
+#define SDS_ALGO_DATA_OUT_BLOCK_SIZE    (4 * sizeof(float))
 #endif
 
 #endif
