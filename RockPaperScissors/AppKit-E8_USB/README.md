@@ -157,13 +157,7 @@ Confidence      : 99.51 %
 SDS recording (#0) stopped
 ====
 ```
-
-<<<<<<< HEAD
-Each run records two files: `ML_In.<n>.sds` and `ML_Out.<0>.sds` in the directory
-=======
-Each run records two files: `DataInput.<n>.sds` and `DataOutput.<n>.sds` in the directory
->>>>>>> 6b3d5e3 (README reworked)
-where SDSIO-Server was started. `<n>` is a sequential number.
+Each run records two files: `ML_In.<n>.sds` and `ML_Out.<n>.sds` in the directory where SDSIO-Server was started. `<n>` is a sequential number.
 
 #### Check SDS Files
 
@@ -198,14 +192,8 @@ To execute the **playback** test, follow the steps below:
    (STDIO).
 7. Connect the MCU USB (J2) of the AppKit-E8-AIML to the PC running SDSIO-Server.
 8. Reset the board with RESET (SW1) button and observe the application output (STDIO).
-<<<<<<< HEAD
-9.  Press a joystick (SW2) on the board to start playback of `ML_In` and recording of `ML_Out`.
-10. Wait for playback to finish, it will finish automatically when all data from `ML_In.0.sds` SDS file was played
-=======
-9. Press the joystick (SW2) on the board to start playback of `DataInput` and recording of `DataOutput`.
-10. Wait for playback to finish; it finishes automatically when all data from the `DataInput.0.sds` SDS file was played
->>>>>>> 6b3d5e3 (README reworked)
-    back.
+9.  Press the joystick (SW2) on the board to start playback of `ML_In` and recording of `ML_Out`.
+10. Wait for playback to finish; it will finish automatically when all data from `ML_In.0.sds` SDS file was played back.
 
 The stream `ML_In.<n>.sds` is read back and the algorithm processes this data. The stream `ML_Out.<m>.sds` is
 written whereby `<m>` is the next available file index.
