@@ -137,7 +137,25 @@ The ML model delivers four float values for each category `PAPER`, `ROCK`, `SCIS
 
 ### Measure Timing
 
-ToDo
+Timing can be measured with the SEGGER [SystemView](https://www.segger.com/products/development-tools/systemview/) tool.
+
+The application is instrumented with SystemView markers used to measure timing and log messages for additional information. The instrumented application is available in the [systemview](https://github.com/Arm-Examples/ModelNova/tree/sysview) branch of the project.
+
+Following operations are measured:
+
+- Camera Input
+- Algorithm execution: Pre-processing, Inference, Post-processing
+- Display Output
+
+Ethos-U PMU (Performance Monitoring Unit) is also used in `inference` to measure time used by the CPU and the NPU. This information is provided as additional log messages.
+
+SystemView data can be captured with a CMSIS-DAP adapter and pyOCD. Use these steps:
+
+- Build the application.
+- Program the application to the target.
+- Run the task `pyOCD Run` which starts the application and captures SystemView data.
+- Stop the task by pressing Ctrl+C. SystemView data is then saved into a .*SVDat file in the output folder.
+- Open the .*SVDat file with the SystemView tool to review the timing information.
 
 ![System View](./image/SystemView.png "System View")
 
