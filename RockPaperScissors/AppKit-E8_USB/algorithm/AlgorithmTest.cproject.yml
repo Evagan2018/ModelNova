@@ -65,7 +65,7 @@ project:
     - layer: $Board-Layer$
       type:  Board
     - layer: $AI-Layer$
-      type:  AI / Executorch
+      type:  AI
 
   # List of miscellaneous tool-specific controls
   misc:
