@@ -37,6 +37,24 @@ solution:
           images:
             - project-context: AlgorithmTest.DebugRec
 
+    - type: SSE-320-U85 # Simulator (Cortex-M85 + Ethos-U85)
+      board: SSE-320
+      device: SSE-320-FVP
+      define:
+        - SIMULATOR
+      variables:
+        - Board-Layer: $SolutionDir()$/Board/Corstone-320/Board-U85.clayer.yml
+        - SDSIO-Layer: $SolutionDir()$/sdsio/fvp/sdsio_fvp.clayer.yml
+        - AI-Layer: $SolutionDir()$/ai_layer/ai_layer.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_Corstone_SSE-320
+            config-file: Board/Corstone-320/fvp_config.txt
+          images:
+            - project-context: AlgorithmTest.DebugPlay
+
   # List of different build configurations.
   build-types:
     - type: DebugRec
@@ -62,3 +80,6 @@ solution:
   # List related projects.
   projects:
     - project: algorithm/AlgorithmTest.cproject.yml
+      not-for-context:
+        - .DebugRec+SSE-320-U85
+        - .ReleaseRec+SSE-320-U85

@@ -17,6 +17,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include "RTE_Components.h"
 #include "cmsis_os2.h"
 #include "sds_main.h"
@@ -25,8 +26,9 @@
 #include "sds_algorithm.h"
 #include "sds_data_in.h"
 
+#ifndef  SIMULATOR
 #include "profiler.h"
-
+#endif
 
 #ifdef SDS_PLAY
 // Playback record timestamp
