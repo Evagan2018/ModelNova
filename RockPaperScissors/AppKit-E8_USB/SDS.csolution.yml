@@ -49,6 +49,8 @@ solution:
             rtt:
               - pname: M55_HP
                 channel:
+                  - number: 0
+                    mode: stdio
                   - number: 1
                     mode: systemview
           images:

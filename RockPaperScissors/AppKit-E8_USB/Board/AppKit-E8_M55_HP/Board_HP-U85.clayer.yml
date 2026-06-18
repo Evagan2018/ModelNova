@@ -35,9 +35,10 @@ layer:
   packs:
     - pack: AlifSemiconductor::Ensemble@^2.1.1-0
     - pack: ARM::CMSIS@^6.2.0
-    - pack: ARM::CMSIS-Compiler@^2.1.0
+    - pack: ARM::CMSIS-Compiler@^2.3.0
     - pack: ARM::CMSIS-Driver@^2.10.0
     - pack: ARM::ethos-u-core-driver@1.25.2
+    - pack: SEGGER::RTT@^8.58.0
 
   # List miscellaneous options passed via the command line to the build tool.
   misc:
@@ -74,9 +75,12 @@ layer:
 #   - component: CMSIS Driver:vStream:VideoOut&AppKit-E8-AIML
 
     - component: CMSIS-Compiler:CORE
-    - component: CMSIS-Compiler:STDERR:Custom
-    - component: CMSIS-Compiler:STDIN:Custom
-    - component: CMSIS-Compiler:STDOUT:Custom
+    # - component: CMSIS-Compiler:STDERR:Custom
+    # - component: CMSIS-Compiler:STDIN:Custom
+    # - component: CMSIS-Compiler:STDOUT:Custom
+    - component: CMSIS-Compiler:STDERR:RTT
+    - component: CMSIS-Compiler:STDIN:RTT
+    - component: CMSIS-Compiler:STDOUT:RTT
 
     - component: Device:SOC Peripherals:CDC
     - component: Device:SOC Peripherals:CPI
@@ -101,7 +105,7 @@ layer:
         - file: main.h
         - file: AppKit-E8-AIML.h
         - file: ethos_setup.c
-        - file: retarget_stdio.c
+        # - file: retarget_stdio.c
         - file: ext_init.c
         - file: profiler.c
         - file: profiler.h

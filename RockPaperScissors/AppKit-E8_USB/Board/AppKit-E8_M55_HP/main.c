@@ -98,6 +98,14 @@ static void CpuCacheEnable(void)
     SCB_EnableDCache();
 }
 
+/*
+    Initialize stdio
+*/
+int stdio_init(void)
+{
+    return 0;
+}
+
 int main(void)
 {
     /* Apply pin configuration */

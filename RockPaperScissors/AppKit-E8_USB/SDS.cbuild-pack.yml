@@ -5,9 +5,9 @@ cbuild-pack:
         - ARM::CMSIS
         - ARM::CMSIS@^6.2.0
         - ARM::CMSIS@^6.3.0
-    - resolved-pack: ARM::CMSIS-Compiler@2.1.0
+    - resolved-pack: ARM::CMSIS-Compiler@2.3.0
       selected-by-pack:
-        - ARM::CMSIS-Compiler@^2.1.0
+        - ARM::CMSIS-Compiler@^2.3.0
     - resolved-pack: ARM::CMSIS-Driver@2.10.0
       selected-by-pack:
         - ARM::CMSIS-Driver@^2.10.0
