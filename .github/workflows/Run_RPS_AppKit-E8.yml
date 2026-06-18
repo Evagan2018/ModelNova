@@ -38,7 +38,7 @@ jobs:
           token: ${{ github.token }}
 
       - name: Download Build Artifact
-        # if: ${{ github.event_name == 'workflow_run' }}
+        if: ${{ ( github.event_name == 'workflow_run') || (github.event_name == 'workflow_dispatch') }}
         uses: dawidd6/action-download-artifact@v21
         with:
           workflow: Build_RPS_AppKit-E8.yml
