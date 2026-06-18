@@ -20,7 +20,7 @@ on:
   workflow_run:
     workflows: ["Build RPS for AppKit-E8 Hardware"]
     types: [completed]
-    branches: [main]
+    branches: [stdio_rtt]
 
 permissions:
   contents: read
@@ -39,8 +39,10 @@ jobs:
 
       - name: Download Build Artifact
         if: ${{ github.event_name == 'workflow_run' }}
-        uses: dawidd6/action-download-artifact@v17
+        uses: dawidd6/action-download-artifact@v21
         with:
+          workflow: Build_RPS_AppKit-E8.yml
+          branch: stdio_rtt        
           run_id: ${{ github.event.workflow_run.id }}
           name: RPS_AppKit-E8-U85_HIL
           path: ./RockPaperScissors/AppKit-E8_USB/out
