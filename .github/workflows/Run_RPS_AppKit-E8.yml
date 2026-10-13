@@ -1,94 +1,69 @@
-# Copyright (c) 2026 Arm Limited (or its affiliates). All rights reserved.
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-
 name: Run RPS on AppKit-E8 Hardware
-on:
-  workflow_call:
-
+'on':
+  workflow_dispatch: null
+  workflow_call: null
 permissions:
   contents: read
   actions: read
-
 jobs:
   RUNNER-GATE:
     if: ${{ github.repository != 'Arm-Examples/ModelNova' && github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Notify Runner Restriction
-        run: |
-          MESSAGE="Workflows on the private runner are restricted for security reasons."
+    - name: Notify Runner Restriction
+      run: |
+        MESSAGE="Workflows on the private runner are restricted for security reasons."
+        echo "${MESSAGE}"
+        {
+          echo "## ⚠️ AppKit-E8 hardware test was not run"
+          echo ""
           echo "${MESSAGE}"
-          {
-            echo "## ⚠️ AppKit-E8 hardware test was not run"
-            echo ""
-            echo "${MESSAGE}"
-          } >> "$GITHUB_STEP_SUMMARY"
-          exit 1
-
+        } >> "$GITHUB_STEP_SUMMARY"
+        exit 1
   CI:
     if: ${{ github.repository == 'Arm-Examples/ModelNova' }}
-    runs-on: [self-hosted, rsp-p5-01]
-
+    runs-on:
+    - self-hosted
+    - rsp-p5-01
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          token: ${{ github.token }}
-
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: RPS_AppKit-E8-U85_HIL
-          path: ./RockPaperScissors/AppKit-E8_USB/out
-
-      - name: Flash using pyOCD
-        working-directory: ./RockPaperScissors/AppKit-E8_USB/out
-        run: |
-          pyocd load --uid L96807771A --cbuild-run SDS+AppKit-E8-U85.cbuild-run.yml
-
-      - name: Run using pyOCD
-        working-directory: ./RockPaperScissors/AppKit-E8_USB/out
-        run: |
-          nohup pyocd run --uid L96807771A --cbuild-run SDS+AppKit-E8-U85.cbuild-run.yml --timelimit 30 --eot > pyocd.out 2>&1 &
-
-      - name: Start the SDSIO server on the Raspberry Pi
-        working-directory: ./RockPaperScissors/AppKit-E8_USB
-        run: |
-          sleep 2 # Delay to ensure that pyOCD is started
-          sdsio-server --control SDS.sdsio.yml --playback --exit-after-playback --no-progress-info | tee sdsio-server.log
-
-      - name: Wait for pyocd to complete
-        run: |
-          while pgrep pyocd > /dev/null; do
-            sleep 1
-          done
-
-      - name: Show content of the pyocd.out file
-        working-directory: ./RockPaperScissors/AppKit-E8_USB/out
-        run: |
-          cat ./pyocd.out
-
-      - name: Upload SDS artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: sds-artifacts
-          path: |
-            RockPaperScissors/AppKit-E8_USB/SDS_Recordings/*.p.sds
-            RockPaperScissors/AppKit-E8_USB/out/pyocd.out
-            RockPaperScissors/AppKit-E8_USB/out/SDS+AppKit-E8-U85.SVDat
-            RockPaperScissors/AppKit-E8_USB/sdsio-server.log
-          if-no-files-found: warn
+    - name: Checkout repository
+      uses: actions/checkout@v7
+      with:
+        token: ${{ github.token }}
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: RPS_AppKit-E8-U85_HIL
+        path: ./RockPaperScissors/AppKit-E8_USB/out
+    - name: Flash using pyOCD
+      working-directory: ./RockPaperScissors/AppKit-E8_USB/out
+      run: |
+        pyocd load --uid L96807771A --cbuild-run SDS+AppKit-E8-U85.cbuild-run.yml
+    - name: Run using pyOCD
+      working-directory: ./RockPaperScissors/AppKit-E8_USB/out
+      run: |
+        nohup pyocd run --uid L96807771A --cbuild-run SDS+AppKit-E8-U85.cbuild-run.yml --timelimit 30 --eot > pyocd.out 2>&1 &
+    - name: Start the SDSIO server on the Raspberry Pi
+      working-directory: ./RockPaperScissors/AppKit-E8_USB
+      run: |
+        sleep 2 # Delay to ensure that pyOCD is started
+        sdsio-server --control SDS.sdsio.yml --playback --exit-after-playback --no-progress-info | tee sdsio-server.log
+    - name: Wait for pyocd to complete
+      run: |
+        while pgrep pyocd > /dev/null; do
+          sleep 1
+        done
+    - name: Show content of the pyocd.out file
+      working-directory: ./RockPaperScissors/AppKit-E8_USB/out
+      run: |
+        cat ./pyocd.out
+    - name: Upload SDS artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: sds-artifacts
+        path: |
+          RockPaperScissors/AppKit-E8_USB/SDS_Recordings/*.p.sds
+          RockPaperScissors/AppKit-E8_USB/out/pyocd.out
+          RockPaperScissors/AppKit-E8_USB/out/SDS+AppKit-E8-U85.SVDat
+          RockPaperScissors/AppKit-E8_USB/sdsio-server.log
+        if-no-files-found: warn

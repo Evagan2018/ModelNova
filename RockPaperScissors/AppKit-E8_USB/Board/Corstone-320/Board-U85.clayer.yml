@@ -21,7 +21,7 @@ layer:
     - UART0_BASE_S_TMP
 
   packs:
-    - pack: ARM::CMSIS
+    - pack: ARM::CMSIS@6.4.0
     - pack: ARM::CMSIS-Compiler@^2.1.0
     - pack: ARM::ethos-u-core-driver@^1.25.2
     - pack: ARM::SSE_320_BSP@1.1.0
